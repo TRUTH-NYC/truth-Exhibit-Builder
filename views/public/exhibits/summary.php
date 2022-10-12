@@ -13,6 +13,11 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
     <?php echo exhibit_builder_page_nav(); ?>
     <div class="exhibit-cover-image mobile-only" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
     <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
+        <?php 
+            $separated = explode("<p></p>\n<p></p>\n<p></p>", $exhibitDescription);
+            $exhibitDescription = $separated[0];
+            $exhibitDescription2 = $separated[1];
+        ?>
         <div class="exhibit-description">
             <?php echo $exhibitDescription; ?>
         </div>
@@ -30,7 +35,9 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
 </div>
 <?php endif; ?>
 </div>
-
+<?php
+    echo $exhibitDescription2;
+ ?>
 <?php
 $pageTree = exhibit_builder_page_thumbnails();
 if ($pageTree):
