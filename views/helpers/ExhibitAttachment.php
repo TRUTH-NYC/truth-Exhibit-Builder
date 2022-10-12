@@ -41,7 +41,14 @@ class ExhibitBuilder_View_Helper_ExhibitAttachment extends Zend_View_Helper_Abst
 
         // Don't show a caption if we couldn't show the Item or File at all
         if (isset($html)) {
-            $html .= $this->view->exhibitAttachmentCaption($attachment);
+            if (is_string($attachment['caption']) && $attachment['caption'] != '') {
+                $html .= $this->view->exhibitAttachmentCaption($attachment);
+            } else {
+                $html .= '<div class="exhibit-item-caption"> <p>'
+                        . metadata($item, array('Dublin Core', 'Title'))
+                        . '</p></div>';
+                
+            }
         } else {
             $html = '';
         }
