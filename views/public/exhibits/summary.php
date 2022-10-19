@@ -11,7 +11,9 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
     <div class="exhibit-header-card-content">
     <h1><?php echo metadata('exhibit', 'title'); ?></h1>
     <?php echo exhibit_builder_page_nav(); ?>
-    <div class="exhibit-cover-image mobile-only" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
+    <?php if($file): ?>
+        <div class="exhibit-cover-image mobile-only" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
+    <?php endif; ?>
     <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
         <?php 
             $separated = explode("<p></p>\n<p></p>\n<p></p>", $exhibitDescription);
