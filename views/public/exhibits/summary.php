@@ -37,9 +37,11 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
 </div>
 <?php endif; ?>
 </div>
+<?php if ($exhibitDescription2): ?>
 <?php
     echo $exhibitDescription2;
  ?>
+ <?php endif; ?>
 <?php
 $pageTree = exhibit_builder_page_thumbnails();
 if ($pageTree):
