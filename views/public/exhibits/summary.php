@@ -26,9 +26,9 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
     <?php endif; ?>
     </div>
 
-
+<?php if($file): ?>
 <div class="exhibit-cover-image" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
-
+<?php endif; ?>
 
 <?php if (($exhibitCredits = metadata('exhibit', 'credits'))): ?>
 <div class="exhibit-credits">
