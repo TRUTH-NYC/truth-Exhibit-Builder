@@ -154,6 +154,10 @@ class ExhibitLayout
             'file' => array(
                 'name' => __('File'),
                 'description' => __('Layout featuring a standalone file')
+            ),
+            'exhibit-reference' => array(
+                'name' => __('Exhibit Reference'),
+                'description' => __('Reference to another Exhibit')
             )
         );
 

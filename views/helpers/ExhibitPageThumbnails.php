@@ -72,11 +72,24 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
         $blocks = $page->ExhibitPageBlocks;
         $firstBlock = array_values($blocks)[0];
 
-        $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($this->_exhibit, $page) . '">'
-              . '<h3>'. metadata($page, 'menu_title') .'</h3>'
-              . '<p>'. $firstBlock->text .'</p>'
-              . '<img src="'. file_display_url($file) .'" />'
-              .'</a>';
+        $exhibitions = explode(',', json_decode($firstBlock->options)->slugs);
+        $firstExhibitionSlug = array_values($exhibitions)[0];
+        $firstExhibition = get_record('Exhibit', array('slug' => $firstExhibitionSlug));
+        
+        if($firstExhibition) {
+            $file = get_record_by_id('File', $firstExhibition->cover_image_file_id);
+            $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($firstExhibition) . '">'
+                    . '<h3>'. $firstExhibition->title .'</h3>'
+                    . '<p>'. $firstExhibition->description .'</p>'
+                    . '<img src="'. file_display_url($file) .'" />'
+                    .'</a>';
+        } else {
+            $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($this->_exhibit, $page) . '">'
+            . '<h3>'. metadata($page, 'menu_title') .'</h3>'
+            . '<p>'. $firstBlock->text .'</p>'
+            . '<img src="'. file_display_url($file) .'" />'
+            .'</a>';
+        }
               
         if (isset($this->_pages[$page->id])) {
             $html .= '<ul>';
