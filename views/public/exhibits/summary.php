@@ -6,9 +6,22 @@ $file = get_record_by_id('File', $exhibit->cover_image_file_id);
 
 echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits summary')); 
 ?>
-
+<?php 
+    ($color = get_theme_option('exhibit_header_paragraph_color')) || ($color = '#444');
+    ($title_color = get_theme_option('exhibit_header_title_color')) || ($title_color = '#444');
+    ($subtitle_color = get_theme_option('exhibit_header_subtitle_color')) || ($subtitle_color = '#fff');
+    ($text_align =  get_theme_option('exhibit_header_card_text_align')) || ($text_align = 'left');
+    ($font_size =  get_theme_option('exhibit_header_paragraph_font_size')) || ($font_size = '16px');
+    ($title_font_size =  get_theme_option('exhibit_header_title_font_size')) || ($title_font_size = '28px');
+    ($subtitle_font_size =  get_theme_option('exhibit_header_subtitle_font_size')) || ($subtitle_font_size = '40px');
+    ($font_family = get_theme_option('exhibit_header_card_text_font_family')) || ($font_family = 'EB Garamond');
+    ($title_font_family = get_theme_option('exhibit_header_card_title_font_family')) || ($title_font_family = 'EB Garamond');
+    ($subtitle_font_family = get_theme_option('exhibit_header_card_subtitle_font_family')) || ($subtitle_font_family = 'Montserrat');
+    ($title_line_height = get_theme_option('exhibit_header_title_line_height')) || ($title_line_height = '54px');
+    ($subtitle_line_height = get_theme_option('exhibit_header_subtitle_line_height')) || ($subtitle_line_height = '54px');
+?>
 <div class="exhibit-header-card" style="--background-color: <?php echo get_theme_option('exhibit_header_card_color'); ?>">
-    <div class="exhibit-header-card-content">
+    <div class="exhibit-header-card-content" style="--color: <?php echo $color; ?>; --title-color: <?php echo $title_color; ?>; --subtitle-color: <?php echo $subtitle_color ?>; --text-align: <?php echo $text_align; ?>; --font-size: <?php echo $font_size; ?>; --title-font-size: <?php echo $title_font_size; ?>; --subtitle-font-size: <?php echo $subtitle_font_size; ?>; --font-family: <?php echo $font_family; ?>; --title-font-family: <?php echo $title_font_family; ?>;  --subtitle-font-family: <?php echo $subtitle_font_family; ?>; --title-line-height:  <?php echo $title_line_height; ?>; --subtitle-line-height:  <?php echo $subtitle_line_height; ?>;">
     <h1><?php echo metadata('exhibit', 'title'); ?></h1>
     <?php echo exhibit_builder_page_nav(); ?>
     <?php if($file): ?>
