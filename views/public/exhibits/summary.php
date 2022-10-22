@@ -26,7 +26,7 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
     <?php echo exhibit_builder_page_nav(); ?>
     <?php if($file): ?>
         <figure class="exhibit-cover-image mobile-only">
-            <img src="<?php echo file_display_url($file); ?>" />
+            <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
                 <?php 
                     $item = get_record_by_id('Item', $exhibit->cover_image_file_id);
                     if($item) {
@@ -51,7 +51,7 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
 
 <?php if($file): ?>
 <figure class="exhibit-cover-image">
-    <img src="<?php echo file_display_url($file); ?>" />
+    <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
         <?php 
             $item = get_record_by_id('Item', $exhibit->cover_image_file_id);
             if($item) {
