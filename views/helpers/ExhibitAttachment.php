@@ -24,9 +24,7 @@ class ExhibitBuilder_View_Helper_ExhibitAttachment extends Zend_View_Helper_Abst
         
         if ($file) {
             if ($forceImage) {
-                $imageSize = isset($fileOptions['imageSize'])
-                    ? $fileOptions['imageSize']
-                    : 'square_thumbnail';
+                $imageSize = 'thumbnail';
                 $image = file_image($imageSize, $fileOptions['imgAttributes'], $file);
                 $html = exhibit_builder_link_to_exhibit_item($image, $linkProps, $item);
             } else {

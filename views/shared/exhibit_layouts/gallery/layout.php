@@ -13,6 +13,7 @@ $captionPosition = isset($options['captions-position'])
     ? html_escape($options['captions-position'])
     : 'center';
 ?>
+<?php echo $text; ?>
 <?php if ($showcaseFile): ?>
 <div class="gallery-showcase <?php echo $showcasePosition; ?> with-<?php echo $galleryPosition; ?> captions-<?php echo $captionPosition; ?>">
     <?php
@@ -24,4 +25,3 @@ $captionPosition = isset($options['captions-position'])
 <div class="gallery <?php if ($showcaseFile || !empty($text)) echo "with-showcase $galleryPosition"; ?> captions-<?php echo $captionPosition; ?>">
     <?php echo $this->exhibitAttachmentGallery($attachments, array('imageSize' => $galleryFileSize)); ?>
 </div>
-<?php echo $text; ?>
