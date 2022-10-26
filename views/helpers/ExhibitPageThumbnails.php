@@ -82,13 +82,11 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
                     . '<h3>'. $referenceExhibition->title .'</h3>'
                     . '<p>'. $referenceExhibition->description .'</p>'
                     . '<img src="'. file_display_url($file) .'" />'
-                    . '<p> asdasd </p>'
                     .'</a>';
             } else {
                 $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($this->_exhibit, $page) . '">'
                 . '<p>'. $firstBlock->text .'</p>'
                 . '<img src="'. file_display_url($file) .'" />'
-                . '<p> asdasd </p>'
                 . '</a>';
             }
               
