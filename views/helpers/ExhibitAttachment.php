@@ -26,6 +26,7 @@ class ExhibitBuilder_View_Helper_ExhibitAttachment extends Zend_View_Helper_Abst
             if ($forceImage) {
                 $imageSize = 'thumbnail';
                 $image = file_image($imageSize, $fileOptions['imgAttributes'], $file);
+                $image .= metadata($item, array('Dublin Core', 'Source'));
                 $html = exhibit_builder_link_to_exhibit_item($image, $linkProps, $item);
             } else {
                 if (!isset($fileOptions['linkAttributes']['href'])) {
