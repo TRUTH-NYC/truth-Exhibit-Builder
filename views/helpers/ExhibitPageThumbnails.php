@@ -65,19 +65,20 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
             $html = '<li>';
         }
 
-        $attachments = $page->getAllAttachments();
-        $firstAttachment = array_values($attachments)[0];
-        $file = get_record_by_id('File', $firstAttachment->file_id);
-        
         $blocks = $page->ExhibitPageBlocks;
         $firstBlock = array_values($blocks)[0];
+        
+        $attachments = $page->getAllAttachments();
+        if(!empty($attachments)) {
+            $firstAttachment = array_values($attachments)[0];
+            $file = get_record_by_id('File', $firstAttachment->file_id);
+        }
 
         if($firstBlock->layout == 'gallery-by-tag') {
             $items = get_records('Item', array('tags' => array(json_decode($firstBlock->options)->tag)), 1);
             $firstItem = array_values($items)[0];
             $file = $firstItem->getFile(0);
         }
-
 
         $exhibitions = explode(',', json_decode($firstBlock->options)->slugs);
         $firstExhibitionSlug = array_values($exhibitions)[0];
