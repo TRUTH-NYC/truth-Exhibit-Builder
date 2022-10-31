@@ -76,13 +76,17 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
 
         if($firstBlock->layout == 'gallery-by-tag') {
             $items = get_records('Item', array('tags' => array(json_decode($firstBlock->options)->tag)), 1);
-            $firstItem = array_values($items)[0];
-            $file = $firstItem->getFile(0);
+            if(!empty($items)) {
+                $firstItem = array_values($items)[0];
+                $file = $firstItem->getFile(0);
+            }
         }
 
-        $exhibitions = explode(',', json_decode($firstBlock->options)->slugs);
-        $firstExhibitionSlug = array_values($exhibitions)[0];
-        $referenceExhibition = get_record('Exhibit', array('slug' => $firstExhibitionSlug));
+        if($firstBlock->options) {
+            $exhibitions = explode(',', json_decode($firstBlock->options)->slugs);
+            $firstExhibitionSlug = array_values($exhibitions)[0];
+            $referenceExhibition = get_record('Exhibit', array('slug' => $firstExhibitionSlug));
+        }
         
         if($referenceExhibition) {
             $file = get_record_by_id('File', $referenceExhibition->cover_image_file_id);
