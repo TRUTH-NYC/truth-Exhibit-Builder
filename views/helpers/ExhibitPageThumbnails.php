@@ -72,6 +72,13 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
         $blocks = $page->ExhibitPageBlocks;
         $firstBlock = array_values($blocks)[0];
 
+        if($firstBlock->layout == 'gallery-by-tag') {
+            $items = get_records('Item', array('tags' => array(json_decode($firstBlock->options)->tag)), 1);
+            $firstItem = array_values($items)[0];
+            $file = $firstItem->getFile(0);
+        }
+
+
         $exhibitions = explode(',', json_decode($firstBlock->options)->slugs);
         $firstExhibitionSlug = array_values($exhibitions)[0];
         $referenceExhibition = get_record('Exhibit', array('slug' => $firstExhibitionSlug));
@@ -80,14 +87,18 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
             $file = get_record_by_id('File', $referenceExhibition->cover_image_file_id);
             $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($referenceExhibition) . '">'
                     . '<h3>'. $referenceExhibition->title .'</h3>'
-                    . '<p>'. $referenceExhibition->description .'</p>'
-                    . '<img src="'. file_display_url($file) .'" />'
-                    .'</a>';
+                    . '<p>'. $referenceExhibition->description .'</p>';
+                    if($file) {
+                        $html .= '<img src="'. file_display_url($file) .'" />';
+                    }
+                    $html .= '</a>';
             } else {
                 $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($this->_exhibit, $page) . '">'
-                . '<p>'. $firstBlock->text .'</p>'
-                . '<img src="'. file_display_url($file) .'" />'
-                . '</a>';
+                . '<p>'. $firstBlock->text .'</p>';
+                if($file) {
+                    $html .= '<img src="'. file_display_url($file) .'" />';
+                }
+                $html .= '</a>';
             }
               
         if (isset($this->_pages[$page->id])) {
