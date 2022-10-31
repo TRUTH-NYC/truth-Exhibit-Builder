@@ -7,7 +7,7 @@ $options = $block->getOptions();
     <div class="query-param">
         <?php echo $this->formLabel($formStem . '', __('Select Another Exhibit For Page:')); ?>
         <?php
-        $exhibits = get_records('Exhibit', array());
+        $exhibits = get_records('Exhibit', array(), 50);
         // echo $this->formSelect($formStem . '[options][columns]',
         // @$options['columns'], array(),
         //     array(

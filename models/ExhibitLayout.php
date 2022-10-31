@@ -147,6 +147,10 @@ class ExhibitLayout
                 'name' => __('Gallery'),
                 'description' => __('A gallery layout featuring file thumbnails')
             ),
+            'gallery-by-tag' => array(
+                'name' => __('Gallery By Tag'),
+                'description' => __('A gallery layout featuring items with a tag')
+            ),
             'text' => array(
                 'name' => __('Text'),
                 'description' => __('Layout featuring a block of text without files')
