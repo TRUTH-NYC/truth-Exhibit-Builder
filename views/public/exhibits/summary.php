@@ -4,8 +4,57 @@ if (!$exhibit) {
 }
 $file = get_record_by_id('File', $exhibit->cover_image_file_id);
 
-echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits summary')); 
+echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits summary'));
+
+function exhibitFirstReferencer($exhibit) {
+    $exhibits = get_records('Exhibit', array(), 50);
+    $referenced_exhibits = array_filter($exhibits, function ($ex) use ($exhibit) {
+        // echo '<br> checking exhibit <br>';
+        // var_dump($ex->title);
+        // echo '<br> checking exhibit end <br>';
+
+        $pages = $ex->getPages();
+        for ($i=0; $i < count($pages); $i++) {
+            $page = array_values($pages)[$i];
+            // echo '<br> ---- checking page <br>';
+            // var_dump($page->title);
+            // echo '<br> ---- checking page end <br>';
+            $blocks = $page->getPageBlocks();
+            $firstBlock = array_values($blocks)[0];
+            if($firstBlock->layout == 'exhibit-reference') {
+                $referenceSlugs = explode(',', json_decode($firstBlock->options)->slugs);
+                // echo '<br> refs: <br>';
+                // var_dump($referenceSlugs);
+                
+                // echo '<br> GSlug: <br>';
+                // var_dump($exhibit->slug);
+
+                // echo '<br> in ar: <br>';
+                // var_dump(in_array($exhibit->slug, $referenceSlugs));
+                if(in_array($exhibit->slug, $referenceSlugs)) {
+                    return true;
+                }
+            }
+        }
+        return null;
+    });
+
+    return array_values($referenced_exhibits)[0];
+}
+
+
+$referencer = exhibitFirstReferencer($exhibit);
 ?>
+ <?php if($referencer): ?>
+    <script>
+        const referencer_url = '<?php echo record_url ($referencer); ?>';
+        [...document.querySelectorAll(`header a[href="${referencer_url}"]`)].forEach(el => {
+            el.parentElement.classList.add('active');
+        });
+        console.log('ref_url ', referencer_url);
+    </script>
+<?php endif; ?>
+
 <?php 
     ($color = get_theme_option('exhibit_header_paragraph_color')) || ($color = '#444');
     ($title_color = get_theme_option('exhibit_header_title_color')) || ($title_color = '#444');
@@ -22,6 +71,11 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
 ?>
 <div class="exhibit-header-card" style="--background-color: <?php echo get_theme_option('exhibit_header_card_color'); ?>">
     <div class="exhibit-header-card-content" style="--color: <?php echo $color; ?>; --title-color: <?php echo $title_color; ?>; --subtitle-color: <?php echo $subtitle_color ?>; --text-align: <?php echo $text_align; ?>; --font-size: <?php echo $font_size; ?>; --title-font-size: <?php echo $title_font_size; ?>; --subtitle-font-size: <?php echo $subtitle_font_size; ?>; --font-family: <?php echo $font_family; ?>; --title-font-family: <?php echo $title_font_family; ?>;  --subtitle-font-family: <?php echo $subtitle_font_family; ?>; --title-line-height:  <?php echo $title_line_height; ?>; --subtitle-line-height:  <?php echo $subtitle_line_height; ?>;">
+    <?php if($referencer): ?>
+        <h4>
+            <?php echo link_to($referencer, null, metadata($referencer, 'title')); ?>
+        </h4>
+    <?php endif; ?>
     <h1><?php echo metadata('exhibit', 'title'); ?></h1>
     <?php echo exhibit_builder_page_nav(); ?>
     <?php if($file): ?>
@@ -49,7 +103,7 @@ echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits 
     <?php endif; ?>
     </div>
 
-<?php if($file): ?>
+ <?php if($file): ?>
 <figure class="exhibit-cover-image">
     <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
         <?php 
