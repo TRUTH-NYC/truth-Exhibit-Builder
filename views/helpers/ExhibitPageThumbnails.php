@@ -68,6 +68,8 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
         $blocks = $page->ExhibitPageBlocks;
         $firstBlock = array_values($blocks)[0];
         
+        $file;
+
         $attachments = $page->getAllAttachments();
         if(!empty($attachments)) {
             $firstAttachment = array_values($attachments)[0];
