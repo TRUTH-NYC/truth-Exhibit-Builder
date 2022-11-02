@@ -3,6 +3,7 @@ if (!$exhibit) {
     $exhibit = get_current_record('exhibit');
 }
 $file = get_record_by_id('File', $exhibit->cover_image_file_id);
+$fileItem = get_record_by_id('Item', $file->item_id);
 
 echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits summary'));
 
@@ -82,10 +83,9 @@ $referencer = exhibitFirstReferencer($exhibit);
         <figure class="exhibit-cover-image mobile-only">
             <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
                 <?php 
-                    $item = get_record_by_id('Item', $exhibit->cover_image_file_id);
-                    if($item) {
+                    if(isset($fileItem)) {
                     echo '<figcaption>';
-                        echo metadata($item, array('Dublin Core', 'Source'));
+                        echo metadata($fileItem, array('Dublin Core', 'Source'));
                     echo '</figcaption>';    
                     }
                 ?>
@@ -107,10 +107,9 @@ $referencer = exhibitFirstReferencer($exhibit);
 <figure class="exhibit-cover-image">
     <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
         <?php 
-            $item = get_record_by_id('Item', $exhibit->cover_image_file_id);
-            if($item) {
+            if(isset($fileItem)) {
              echo '<figcaption>';
-                echo metadata($item, array('Dublin Core', 'Source'));
+                echo metadata($fileItem, array('Dublin Core', 'Source'));
              echo '</figcaption>';    
             }
         ?>
