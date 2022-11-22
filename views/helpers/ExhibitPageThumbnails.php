@@ -100,7 +100,8 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
                     }
                     $html .= '</a>';
             } else {
-                $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($this->_exhibit, $page) . '">';
+                $html .= '<h3>'. $page->title .'</h3>'
+                .'<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($this->_exhibit, $page) . '">';
                 if(isset($firstItem)) {
                     $html .= '<p>' . metadata($firstItem, array('Dublin Core', 'Description')) . '</p>';
                 }
