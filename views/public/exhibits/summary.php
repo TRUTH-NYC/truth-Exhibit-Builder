@@ -126,7 +126,18 @@ $referencer = exhibitFirstReferencer($exhibit);
     ?>
     <?php endif; ?>
 <?php else: ?>
-    <img class="exhibit-summary-regular-cover-image" src="<?php echo file_display_url($file); ?>" alt="cover" />
+    <?php if($file): ?>
+            <figure class="exhibit-cover-image regular">
+                <img class="exhibit-summary-regular-cover-image" src="<?php echo file_display_url($file); ?>" alt="cover" />
+                    <?php 
+                        if(isset($fileItem)) {
+                        echo '<figcaption>';
+                            echo metadata($fileItem, array('Dublin Core', 'Source'));
+                        echo '</figcaption>';    
+                        }
+                    ?>
+            </figure>
+        <?php endif; ?>
     <h1><?php echo metadata('exhibit', 'title'); ?></h1>
     <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
         <?php    
