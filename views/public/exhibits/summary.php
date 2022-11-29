@@ -69,65 +69,79 @@ $referencer = exhibitFirstReferencer($exhibit);
     ($subtitle_font_family = get_theme_option('exhibit_header_card_subtitle_font_family')) || ($subtitle_font_family = 'Montserrat');
     ($title_line_height = get_theme_option('exhibit_header_title_line_height')) || ($title_line_height = '54px');
     ($subtitle_line_height = get_theme_option('exhibit_header_subtitle_line_height')) || ($subtitle_line_height = '54px');
+    ($page_type = get_theme_option('exhibit_page_type')) || ($page_type = 'page_card_w_image');
 ?>
-<div class="exhibit-header-card" style="--background-color: <?php echo get_theme_option('exhibit_header_card_color'); ?>">
-    <div class="exhibit-header-card-content" style="--color: <?php echo $color; ?>; --title-color: <?php echo $title_color; ?>; --subtitle-color: <?php echo $subtitle_color ?>; --text-align: <?php echo $text_align; ?>; --font-size: <?php echo $font_size; ?>; --title-font-size: <?php echo $title_font_size; ?>; --subtitle-font-size: <?php echo $subtitle_font_size; ?>; --font-family: <?php echo $font_family; ?>; --title-font-family: <?php echo $title_font_family; ?>;  --subtitle-font-family: <?php echo $subtitle_font_family; ?>; --title-line-height:  <?php echo $title_line_height; ?>; --subtitle-line-height:  <?php echo $subtitle_line_height; ?>;">
-    <?php if($referencer): ?>
-        <h4>
-            <?php echo link_to($referencer, null, metadata($referencer, 'title')); ?>
-        </h4>
-    <?php endif; ?>
-    <h1><?php echo metadata('exhibit', 'title'); ?></h1>
-    <?php echo exhibit_builder_page_nav(); ?>
-    <?php if($file): ?>
-        <figure class="exhibit-cover-image mobile-only">
-            <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
-                <?php 
-                    if(isset($fileItem)) {
-                    echo '<figcaption>';
-                        echo metadata($fileItem, array('Dublin Core', 'Source'));
-                    echo '</figcaption>';    
-                    }
-                ?>
-        </figure>
-    <?php endif; ?>
-    <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
-        <?php 
-            $separated = explode("<p></p>\n<p></p>\n<p></p>", $exhibitDescription);
-            $exhibitDescription = $separated[0];
-            $exhibitDescription2 = $separated[1];
-        ?>
-        <div class="exhibit-description">
-            <?php echo $exhibitDescription; ?>
+<?php if ($page_type === 'page_card_w_image'): ?>
+    <div class="exhibit-header-card <?php echo $page_type; ?>" style="--background-color: <?php echo get_theme_option('exhibit_header_card_color'); ?>">
+        <div class="exhibit-header-card-content" style="--color: <?php echo $color; ?>; --title-color: <?php echo $title_color; ?>; --subtitle-color: <?php echo $subtitle_color ?>; --text-align: <?php echo $text_align; ?>; --font-size: <?php echo $font_size; ?>; --title-font-size: <?php echo $title_font_size; ?>; --subtitle-font-size: <?php echo $subtitle_font_size; ?>; --font-family: <?php echo $font_family; ?>; --title-font-family: <?php echo $title_font_family; ?>;  --subtitle-font-family: <?php echo $subtitle_font_family; ?>; --title-line-height:  <?php echo $title_line_height; ?>; --subtitle-line-height:  <?php echo $subtitle_line_height; ?>;">
+        <?php if($referencer): ?>
+            <h4>
+                <?php echo link_to($referencer, null, metadata($referencer, 'title')); ?>
+            </h4>
+        <?php endif; ?>
+        <h1><?php echo metadata('exhibit', 'title'); ?></h1>
+        <?php echo exhibit_builder_page_nav(); ?>
+        <?php if($file): ?>
+            <figure class="exhibit-cover-image mobile-only">
+                <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
+                    <?php 
+                        if(isset($fileItem)) {
+                        echo '<figcaption>';
+                            echo metadata($fileItem, array('Dublin Core', 'Source'));
+                        echo '</figcaption>';    
+                        }
+                    ?>
+            </figure>
+        <?php endif; ?>
+        <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
+            <?php 
+                $separated = explode("<p></p>\n<p></p>\n<p></p>", $exhibitDescription);
+                $exhibitDescription = $separated[0];
+                $exhibitDescription2 = $separated[1];
+            ?>
+            <div class="exhibit-description">
+                <?php echo $exhibitDescription; ?>
+            </div>
+        <?php endif; ?>
         </div>
-    <?php endif; ?>
-    </div>
 
- <?php if($file): ?>
-<figure class="exhibit-cover-image">
-    <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
-        <?php 
-            if(isset($fileItem)) {
-             echo '<figcaption>';
-                echo metadata($fileItem, array('Dublin Core', 'Source'));
-             echo '</figcaption>';    
-            }
+    <?php if($file): ?>
+    <figure class="exhibit-cover-image">
+        <div class="exhibit-cover-image-img" style="background-image: url('<?php echo file_display_url($file); ?>');"></div>
+            <?php 
+                if(isset($fileItem)) {
+                echo '<figcaption>';
+                    echo metadata($fileItem, array('Dublin Core', 'Source'));
+                echo '</figcaption>';    
+                }
+            ?>
+    </figure>
+    <?php endif; ?>
+
+    </div>
+    
+    <?php if ($exhibitDescription2): ?>
+    <?php
+        echo $exhibitDescription2;
+    ?>
+    <?php endif; ?>
+<?php else: ?>
+    <img class="exhibit-summary-regular-cover-image" src="<?php echo file_display_url($file); ?>" alt="cover" />
+    <h1><?php echo metadata('exhibit', 'title'); ?></h1>
+    <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
+        <?php    
+            echo $exhibitDescription;
         ?>
-</figure>
+    <?php endif; ?>
 <?php endif; ?>
 
 <?php if (($exhibitCredits = metadata('exhibit', 'credits'))): ?>
-<div class="exhibit-credits">
-    <h3><?php echo __('Credits'); ?></h3>
-    <p><?php echo $exhibitCredits; ?></p>
-</div>
+    <div class="exhibit-credits">
+        <h3><?php echo __('Credits'); ?></h3>
+        <p><?php echo $exhibitCredits; ?></p>
+    </div>
 <?php endif; ?>
-</div>
-<?php if ($exhibitDescription2): ?>
-<?php
-    echo $exhibitDescription2;
- ?>
- <?php endif; ?>
+
 <?php
 $pageTree = exhibit_builder_page_thumbnails();
 if ($pageTree):
