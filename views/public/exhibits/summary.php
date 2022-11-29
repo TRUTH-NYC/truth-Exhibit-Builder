@@ -126,6 +126,7 @@ $referencer = exhibitFirstReferencer($exhibit);
     ?>
     <?php endif; ?>
 <?php else: ?>
+    <div class="exhibit-regular-page" style="--color: <?php echo $color; ?>; --title-color: <?php echo $title_color; ?>; --subtitle-color: <?php echo $subtitle_color ?>; --text-align: <?php echo $text_align; ?>; --font-size: <?php echo $font_size; ?>; --title-font-size: <?php echo $title_font_size; ?>; --subtitle-font-size: <?php echo $subtitle_font_size; ?>; --font-family: <?php echo $font_family; ?>; --title-font-family: <?php echo $title_font_family; ?>;  --subtitle-font-family: <?php echo $subtitle_font_family; ?>; --title-line-height:  <?php echo $title_line_height; ?>; --subtitle-line-height:  <?php echo $subtitle_line_height; ?>;">
     <?php if($file): ?>
             <figure class="exhibit-cover-image regular">
                 <img class="exhibit-summary-regular-cover-image" src="<?php echo file_display_url($file); ?>" alt="cover" />
@@ -144,6 +145,7 @@ $referencer = exhibitFirstReferencer($exhibit);
             echo $exhibitDescription;
         ?>
     <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php if (($exhibitCredits = metadata('exhibit', 'credits'))): ?>
