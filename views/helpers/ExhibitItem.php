@@ -16,14 +16,25 @@ class ExhibitBuilder_View_Helper_ExhibitItem extends Zend_View_Helper_Abstract
      * @param boolean $forceImage Whether to display the attachment as an image
      *  always Defaults to false.
      * @return string
+     * 
      */
     public function exhibitItem($item, $fileOptions = array(), $linkProps = array(), $forceImage = false)
     {
          $itemTitle = metadata($item, 'display_title');
          $html = '<figure class="exhibit-item exhibit-gallery-item">';
         if (metadata($item, 'has thumbnail')) {
+            $thumbnail = file_display_url($item->getFile(0));
+            $fullsize = file_display_url($item->getFile(0), 'fullsize');
+            $image = '<img image-url 
+            srcset="' . $thumbnail . ' 139w, '. $fullsize . ' 1000w" 
+            sizes="(max-width: 530px) calc(100vw - 4%), (max-width: 918px) calc((100vw - 4% - 3em) / 2), (max-width: 1244px) calc((100vw - 4% - 6em) / 3)"
+            src="'
+            . $fullsize 
+            . '" alt=" ' 
+            . $itemTitle 
+            . '">';
             $html .= '<div class="item-img">'
-            . link_to_item(item_image('thumbnail', array('alt' => $itemTitle), null, $item), null, null, $item)
+            . link_to_item($image, null, null, $item)
             . '<div class="exhibit-item-caption"> <p>'
             . metadata($item, array('Dublin Core', 'Title'))
             . '</p></div>'
