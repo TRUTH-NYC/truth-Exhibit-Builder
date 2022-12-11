@@ -93,8 +93,8 @@ class ExhibitBuilder_View_Helper_ExhibitPageThumbnails extends Zend_View_Helper_
         if($referenceExhibition) {
             $file = get_record_by_id('File', $referenceExhibition->cover_image_file_id);
             $html .= '<div class="sub-category-rich-link"> <a href="' . exhibit_builder_exhibit_uri($referenceExhibition) . '">'
-                    . '<h3>'. $referenceExhibition->title .'</h3>'
-                    . '<p>'. $referenceExhibition->description .'</p>';
+                    . '<h3>'. $referenceExhibition->title .'</h3>';
+                    // . '<p>'. $referenceExhibition->description .'</p>';
                     if($file) {
                         $html .= '<img src="'. file_display_url($file) .'" />';
                     }

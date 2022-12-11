@@ -707,3 +707,64 @@ function exhibit_builder_api_import_omeka_adapters($adapters, $args)
         $adapters['exhibit_pages'] = 'ExhibitBuilder_ApiImport_ExhibitPageAdapter';
         return $adapters;
 }
+
+
+function exhibitFirstReferencer($exhibit) {
+    return referencedExhibits($exhibit)[0];
+}
+
+function referencedExhibits($exhibit) {
+    $exhibits = get_records('Exhibit', array(), 50);
+    $referenced_exhibits = array_filter($exhibits, function ($ex) use ($exhibit) {
+        // echo '<br> checking exhibit <br>';
+        // var_dump($ex->title);
+        // echo '<br> checking exhibit end <br>';
+
+        $pages = $ex->getPages();
+        for ($i=0; $i < count($pages); $i++) {
+            $page = array_values($pages)[$i];
+            // echo '<br> ---- checking page <br>';
+            // var_dump($page->title);
+            // echo '<br> ---- checking page end <br>';
+            $blocks = $page->getPageBlocks();
+            $firstBlock = array_values($blocks)[0];
+            if($firstBlock->layout == 'exhibit-reference') {
+                $referenceSlugs = explode(',', json_decode($firstBlock->options)->slugs);
+                // echo '<br> refs: <br>';
+                // var_dump($referenceSlugs);
+                
+                // echo '<br> GSlug: <br>';
+                // var_dump($exhibit->slug);
+
+                // echo '<br> in ar: <br>';
+                // var_dump(in_array($exhibit->slug, $referenceSlugs));
+                if(in_array($exhibit->slug, $referenceSlugs)) {
+                    return true;
+                }
+            }
+        }
+        return null;
+    });
+
+    return array_values($referenced_exhibits);
+}
+
+function item_getFirstFeaturedExhibit($tag) {
+    $exhibits = get_records('Exhibit', array(), 50);
+    $exhibitsFiltered = array_filter($exhibits, function ($ex) use ($exhibit, $tag) {
+        $pages = $ex->getPages();
+        for ($i=0; $i < count($pages); $i++) {
+            $page = array_values($pages)[$i];
+            $blocks = $page->getPageBlocks();
+            $firstBlock = array_values($blocks)[0];
+            if($firstBlock->layout == 'gallery-by-tag') {
+                $referenceTag = json_decode($firstBlock->options)->tag;
+                $referenceTag = preg_replace('/VWI-SWA,\\s*/', '', $referenceTag);
+                if( $referenceTag == $tag ) {
+                    return true;
+                }
+            }
+        }
+    });
+    return array_values($exhibitsFiltered)[0];
+}
