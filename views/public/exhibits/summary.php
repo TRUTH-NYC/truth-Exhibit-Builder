@@ -5,6 +5,8 @@ if (!$exhibit) {
 $file = get_record_by_id('File', $exhibit->cover_image_file_id);
 $fileItem = get_record_by_id('Item', $file->item_id);
 
+$view = get_view(); 
+
 echo head(array('title' => metadata('exhibit', 'title'), 'bodyclass'=>'exhibits summary'));
 
 $referencer = exhibitFirstReferencer($exhibit);
@@ -105,7 +107,7 @@ $referencer = exhibitFirstReferencer($exhibit);
     <h1><?php echo metadata('exhibit', 'title'); ?></h1>
     <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
         <?php    
-            echo $exhibitDescription;
+            echo $view->shortcodes($exhibitDescription);
         ?>
     <?php endif; ?>
     </div>
