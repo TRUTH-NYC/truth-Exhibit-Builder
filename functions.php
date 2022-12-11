@@ -549,7 +549,7 @@ function exhibit_builder_purify_html($args)
         case 'add':
         case 'edit':
             if (!empty($post['description'])) {
-                $post['description'] = $purifier->purify($post['description']);
+                $post['description'] = $post['description'];
             }
             break;
         case 'add-page':
