@@ -60,7 +60,7 @@ $referencer = exhibitFirstReferencer($exhibit);
         <?php endif; ?>
         <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
             <?php 
-                $separated = explode("<p></p>\n<p></p>\n<p></p>", $exhibitDescription);
+                $separated = preg_split("/<p\\s*(?:style=\"[^\"]*\")?\\s*>\\s*<\\/p>\s*(?:<p\\s*(?:style=\"[^\"]*\")?\\s*>\\s*<\\/p>\\s*){2}/", $exhibitDescription);
                 $exhibitDescription = $separated[0];
                 $exhibitDescription2 = $separated[1];
             ?>
